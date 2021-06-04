@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sabnzbd
+  labels:
+   app: sabnzbd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sabnzbd
+  template:
+    metadata:
+      labels:
+        app: sabnzbd
+    spec:
+      containers:
+      - name: sabnzbd
+        env:
+        - name: TZ
+          value: America\NewYork
+        - name: PGID
+          value: "65534"
+        - name: PUID
+          value: "65534"
+        volumeMounts:
+        - name: sab-config
+          mountPath: /config
+        - name: sab-downloads-complete
+          mountPath: /downloads
+        - name: sab-downloads-incomplete
+          mountPath: /incomplete-downloads
+        image: lsioarmhf/sabnzbd
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      volumes:
+      - name: sab-config
+        persistentVolumeClaim:
+          claimName: sab-config
+      - name: sab-downloads-complete
+        persistentVolumeClaim:
+          claimName: sab-downloads-complete
+      - name: sab-downloads-incomplete
+        persistentVolumeClaim:
+          claimName: sab-downloads-incomplete
+---

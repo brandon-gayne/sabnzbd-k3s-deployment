@@ -1,0 +1,65 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sab-config
+spec:
+  claimRef:
+    name: sab-config
+    namespace: default
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  capacity: 
+    storage: 1000Gi
+  nfs:
+    path: /storage/configs
+    server: 10.0.50.10
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sab-downloads-complete
+spec:
+  claimRef:
+    name: sab-downloads-complete
+    namespace: default
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  capacity: 
+    storage: 1000Gi
+  nfs:
+    path: /storage/media/
+    server: 10.0.50.10
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sab-downloads-incomplete
+spec:
+  claimRef:
+    name: sab-downloads-incomplete
+    namespace: default
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  capacity: 
+    storage: 1000Gi
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  nfs:
+    path: /storage/media/
+    server: 10.0.50.10
+---
+
